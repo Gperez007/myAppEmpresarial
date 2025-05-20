@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="🛍️ Realizar Pedido"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- Producto -->
+    <TextView
+        android:id="@+id/tvNombreProducto"
+        android:text="Producto: Café Especial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvPrecio"
+        android:text="Precio: $10.00"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- Selector de cantidad -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnMenos"
+            android:text="-"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tvCantidad"
+            android:text="1"
+            android:layout_marginHorizontal="16dp"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnMas"
+            android:text="+"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <!-- Total -->
+    <TextView
+        android:id="@+id/tvTotal"
+        android:text="Total: $10.00"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <!-- Botón Agregar -->
+    <Button
+        android:id="@+id/btnAgregar"
+        android:text="Agregar al Carrito"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Lista del carrito -->
+    <TextView
+        android:id="@+id/tvCarrito"
+        android:text="Carrito:"
+        android:layout_marginTop="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <!-- Botón Confirmar -->
+    <Button
+        android:id="@+id/btnConfirmar"
+        android:text="Confirmar Pedido"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

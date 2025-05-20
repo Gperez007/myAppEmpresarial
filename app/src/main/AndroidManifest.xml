@@ -1,0 +1,94 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.myapplication">
+
+    <!-- Permisos necesarios -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-feature android:name="android.hardware.camera.ar" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Cámara estándar no requerida, pero se menciona -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyApplication"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+
+        <!-- Actividades -->
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC0N9XHR9B-ezYm50C3Lnlrkuw7Rq3FZ-8"/>
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="EAAIvXCf1AeYBOxNrmwoHOceOG5KH56GiwpOIlorJ0JbSAuTnFfOG9qhggz00eog3N3TZARZC8miIAMzEL5PVY8EOjVP6ZCwVHUZBJ0RdOCFhUWub7V5AwdegygeUZCiZAQ1AeCxPZCDlksluZA4w6saXAy1ilS8vzwdwA9gP093PeyqRZBF9jCkYZD" />
+
+        <activity android:name=".activitys.activitys.TaEmocionalActivity" android:exported="false" />
+        <activity android:name=".activitys.activitys.GnImpresionActivity" android:exported="false" />
+        <activity android:name=".activitys.activitys.GnConcienciaActivity" android:exported="false" />
+        <activity android:name=".activitys.activitys.GnRetoRecuReenActivity" android:exported="false" />
+        <activity android:name=".activitys.activitys.GnMenteActivity" android:exported="false" />
+        <activity android:name=".activitys.activitys.ChatActivity" android:exported="true" />
+        <activity android:name=".activitys.activitys.UserActivity" android:exported="false" />
+        <activity android:name=".activitys.activitys.LoginRegistroLoginActivity" android:exported="false" />
+        <activity android:name=".activitys.activitys.LoginRegistroActivty" android:exported="false" />
+        <activity android:name=".activitys.activitys.MainActivity" android:exported="true" />
+        <activity android:name=".activitys.activitys.LoginActivty" android:exported="true" />
+        <activity android:name=".activitys.activitys.EmpresaLoginActivity" android:exported="true" />
+        <activity android:name=".activitys.activitys.EmpresaRegistroActivity" android:exported="true" />
+        <activity android:name=".activitys.activitys.MapActivity" android:exported="true" />
+        <activity android:name=".activitys.activitys.ChatAtencionClienteActivity" />
+        <activity android:name=".activitys.activitys.EmpresaPanelActivity" />
+        <activity android:name=".activitys.activitys.AdminProductosActivity" />
+        <activity android:name=".activitys.activitys.PromocionActivity" />
+        <activity android:name=".activitys.activitys.AnalisisActivity" />
+        <activity android:name=".activitys.activitys.PanelClienteActivity" />
+        <activity android:name=".activitys.activitys.PedidoActivity" />
+        <activity android:name=".activitys.activitys.PagoActivity" />
+        <activity android:name=".activitys.activitys.ProductosUbicacionActivity" />
+        <activity android:name=".activitys.activitys.SelectRoleActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activitys.activitys.PpalTemaActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.MyApp.MaterialComponents">
+        </activity>
+
+        <!-- Servicio de Firebase Messaging -->
+        <service android:name=".activitys.firebase.MessaginService" android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- Requerido para Google Sign-In -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+
+    </application>
+
+</manifest>

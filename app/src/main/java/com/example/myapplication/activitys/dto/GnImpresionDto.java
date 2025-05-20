@@ -1,0 +1,42 @@
+package com.example.myapplication.activitys.dto;
+
+public class GnImpresionDto {
+
+    private int idImpresion;
+    private String asuntoImpresion;
+    private int idTema;
+
+    public GnImpresionDto() {
+    }
+
+    public GnImpresionDto(int idImpresion, String asuntoImpresion, int idTema) {
+        this.idImpresion = idImpresion;
+        this.asuntoImpresion = asuntoImpresion;
+        this.idTema = idTema;
+    }
+
+    public int getIdImpresion() {
+        return idImpresion;
+    }
+
+    public void setIdImpresion(int idImpresion) {
+        this.idImpresion = idImpresion;
+    }
+
+    public String getAsuntoImpresion() {
+        return asuntoImpresion;
+    }
+
+    public void setAsuntoImpresion(String asuntoImpresion) {
+        this.asuntoImpresion = asuntoImpresion;
+    }
+
+    public int getIdTema() {
+        return idTema;
+    }
+
+    public void setIdTema(int idTema) {
+        this.idTema = idTema;
+    }
+
+}

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_blue"
+    tools:context=".activitys.activitys.LoginRegistroLoginActivity">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Registrate"
+                    android:layout_gravity="center"
+                    android:textColor="#ffffff"
+                    android:textSize="30dp"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="120dp"
+                    android:layout_height="110dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/login">
+
+                </androidx.appcompat.widget.AppCompatImageView>
+
+
+                <EditText
+                    android:id="@+id/textTelefono"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:hint="@string/telefono"
+                    android:textColor="#ffffff"
+                    android:inputType="text|number"
+                    android:textAlignment="center"
+                    android:textColorHint="@color/ligh_turco"
+                    android:textSize="25dp"
+                    android:gravity="center_horizontal" />
+
+                <EditText
+                    android:id="@+id/textPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textColor="#ffffff"
+                    android:textAlignment="center"
+                    android:inputType="text|textPassword"
+                    android:hint="Enter your Password"
+                    android:textColorHint="@color/ligh_turco"
+                    android:textSize="25dp"
+                    android:gravity="center_horizontal" />
+
+
+                <Button
+                    android:id="@+id/buttonRegistrate"
+                    style="@android:style/Widget.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_marginTop="40dp"
+                    android:text="Registrarte"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:textStyle="bold"/>
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</RelativeLayout>

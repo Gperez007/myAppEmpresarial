@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Union App</string>
+    <string name="facebook_app_id">548102597386277</string>
+    <string name="fb_login_protocol_scheme">fb548102597386277</string>
+    <string name="facebook_client_token">56789</string>
+    <string name="web_client_id">450567068623-d5n06e7ufqeaek9skj0p7s4m5p940t7k.apps.googleusercontent.com</string>
+    <string name="nombres">nombres</string>
+    <string name="apellidoP">apellido</string>
+    <string name="telefono">telefono</string>
+    <string name="correo">correo</string>
+    <string name="genero">genero</string>
+    <string name="skin_intro">SKIN INTRO</string>
+    <string name="next">Next</string>
+    <string name="google_maps_key">AIzaSyC0N9XHR9B-ezYm50C3Lnlrkuw7Rq3FZ-8</string>
+
+</resources>

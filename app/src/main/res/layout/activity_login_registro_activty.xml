@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_blue"
+    tools:context=".activitys.activitys.LoginRegistroActivty">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Registrate"
+                    android:layout_gravity="center"
+                    android:textColor="#ffffff"
+                    android:textSize="30dp"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="120dp"
+                    android:layout_height="110dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/login">
+
+                </androidx.appcompat.widget.AppCompatImageView>
+
+                <EditText
+                    android:id="@+id/textNombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:ems="10"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:hint="@string/nombres"
+                    android:textColorHint="@color/ligh_turco"
+                    android:textSize="25dp"
+                    android:gravity="center_horizontal" />
+
+                <EditText
+                    android:id="@+id/textApellidoP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textColor="#ffffff"
+                    android:textAlignment="center"
+                    android:hint="@string/apellidoP"
+                    android:textColorHint="@color/ligh_turco"
+                    android:textSize="25dp"
+                    android:gravity="center_horizontal" />
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/textFecha"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:hint="fecha"
+                        android:textAlignment="center"
+                        android:textColor="#ffffff"
+                        android:textColorHint="@color/ligh_turco"
+                        android:textSize="25dp"
+                        android:gravity="center_horizontal" />
+
+                    <TextView
+                        android:id="@+id/imageButonFecha"
+                        android:layout_width="290dp"
+                        android:layout_height="54dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp">
+
+                    </TextView>
+
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/textGenero"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:hint="@string/genero"
+                    android:textColor="#ffffff"
+                    android:textAlignment="center"
+                    android:textColorHint="@color/ligh_turco"
+                    android:textSize="25dp"
+                    android:gravity="center_horizontal" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16sp"
+                    android:animateLayoutChanges="true"
+                    >
+
+                    <ProgressBar
+                        android:id="@+id/ProgressBar"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="invisible">
+
+                    </ProgressBar>
+
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/buttonSiguiente"
+                    style="@android:style/Widget.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_marginTop="40dp"
+                    android:text="Suguiente"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
