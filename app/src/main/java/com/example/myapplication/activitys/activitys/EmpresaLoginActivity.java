@@ -72,10 +72,8 @@ public class EmpresaLoginActivity extends AppCompatActivity {
 
     // Método de autenticación y validación en Firestore
     private void signIn(String nit, String razonSocial) {
-        // Muestra un mensaje de carga mientras se verifica la información
         Toast.makeText(this, "Verificando empresa...", Toast.LENGTH_SHORT).show();
 
-        // Realizamos una consulta en Firestore para verificar si el NIT y la razón social existen en la base de datos
         db.collection("empresas").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 boolean encontrada = false;
@@ -88,12 +86,17 @@ public class EmpresaLoginActivity extends AppCompatActivity {
                             r.trim().replaceAll("\\s+", "").equalsIgnoreCase(razonSocial.replaceAll("\\s+", ""))) {
 
                         encontrada = true;
-                        // Empresa encontrada, pasar al siguiente Activity
-                        Toast.makeText(this, "Empresa autenticada: " + r, Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(this, PpalTemaActivity.class));
+
+                        // GUARDAR empresaID
+                        String empresaID = doc.getId(); // <--- Este es el ID del documento en Firestore
+
                         preferenseManager = new PreferenseManager(getApplicationContext());
-                        preferenseManager.putBoolean(Constant.KEY_IS_SIGNED_IN, true);
+                        preferenseManager.putBoolean(Constant.KEY_IS_SIGNED_EMPRESA, true);
                         preferenseManager.putBoolean(Constant.KEY_EMPRESA_ID, true);
+                        preferenseManager.putString("empresaID", empresaID); // <-- Guardamos el ID
+
+                        Toast.makeText(this, "Empresa autenticada: " + r, Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(this, PpalEmpresaActivity.class));
                         break;
                     }
                 }

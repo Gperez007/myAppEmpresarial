@@ -84,19 +84,6 @@ public class MainActivity extends BaseActivity implements ConversionListener, Se
         setListeiner();
         listenConversation();
 
-
-        // Ahora ponle un Listener
-        AppCompatImageView imageSignOut = findViewById(R.id.imageSingOutFound);
-        // Ahora ponle un Listener
-        imageSignOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Aquí llamas a tu actividad de votación
-                Intent intent = new Intent(MainActivity.this, VoteTopicsActivity.class);
-                startActivity(intent);
-            }
-        });
-
         lastInteractionTime = System.currentTimeMillis();
         inactivityHandler = new Handler(Looper.getMainLooper());
         startInactivityChecker();

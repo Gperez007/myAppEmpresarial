@@ -2,6 +2,7 @@ package com.example.myapplication.activitys.activitys;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -37,6 +38,9 @@ import com.example.myapplication.activitys.model.ProductoLocation;
 import com.example.myapplication.activitys.model.Tema;
 import com.example.myapplication.activitys.network.ApiRetrofit;
 import com.example.myapplication.activitys.servicios.Services;
+import com.example.myapplication.activitys.util.Constant;
+import com.example.myapplication.activitys.util.PreferenseManager;
+import com.example.myapplication.databinding.ActivityPpalTemaBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -48,8 +52,12 @@ import com.google.android.material.button.MaterialButton;
 
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -64,8 +72,7 @@ public class PpalTemaActivity extends AppCompatActivity {
     private MaterialButton botonBoardingAction;
     private PpalTemaAdapter ppalTemaAdapter;
     private LinearLayout layoutOnboardingIndicator;
-
-
+    private PreferenseManager preferenseManager;
     private ViewPager2 viewPager2;
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -74,16 +81,14 @@ public class PpalTemaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ppal_tema);
         viewPager2 = findViewById(R.id.onBoarddindViePager);
+        preferenseManager = new PreferenseManager(getApplicationContext());
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
         findViewById(R.id.btnIrAlChat).setOnClickListener(v -> {
             Intent intent = new Intent(PpalTemaActivity.this, ChatAtencionClienteActivity.class);
             startActivity(intent);
         });
 
-        findViewById(R.id.btnAdminProdRegistro).setOnClickListener(v -> {
-            Intent intent = new Intent(PpalTemaActivity.this, EmpresaPanelActivity.class);
-            startActivity(intent);
-        });
 
         findViewById(R.id.btnclientePromocion).setOnClickListener(v -> {
             Intent intent = new Intent(PpalTemaActivity.this, PanelClienteActivity.class);
@@ -109,6 +114,32 @@ public class PpalTemaActivity extends AppCompatActivity {
         // Mostrar los temas
         ShowTemas();
 
+        ImageView image = findViewById(R.id.imageSingOutFoundPpal);
+        image.setOnClickListener(v -> SingOut());
+
+
+    }
+
+
+    private void ShowTast(String mesagge) {
+
+        Toast.makeText(getApplicationContext(), mesagge, Toast.LENGTH_SHORT).show();
+    }
+    private void SingOut() {
+        ShowTast("Sing out...");
+        FirebaseFirestore datebasse = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = datebasse.collection("user").document(
+                preferenseManager.getString("usuarioID")
+        );
+        HashMap<String, Object> updates = new HashMap<>();
+        updates.put(Constant.KEY_FCM_TOKEN, FieldValue.delete());
+        documentReference.update(updates).addOnSuccessListener(unused -> {
+
+                    preferenseManager.clear();
+                    startActivity(new Intent(getApplicationContext(), SelectRoleActivity.class));
+                    finish();
+                })
+                .addOnFailureListener(e -> ShowTast("unable to sing out Error"));
 
     }
 

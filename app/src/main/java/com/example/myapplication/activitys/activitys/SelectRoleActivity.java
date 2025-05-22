@@ -19,13 +19,19 @@ public class SelectRoleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_role);
 
         // Verificar si el usuario ya está logeado
-        //preferenseManager = new PreferenseManager(getApplicationContext());
-        // if (preferenseManager.getBoolean(Constant.KEY_IS_SIGNED_IN)) {
-        //    startActivity(new Intent(getApplicationContext(), PpalTemaActivity.class));
-        //     finish();
-        //       return; // Para evitar seguir con la inicialización innecesaria
-        //  }
+        preferenseManager = new PreferenseManager(getApplicationContext());
 
+         if (preferenseManager.getBoolean(Constant.KEY_IS_SIGNED_IN)) {
+            startActivity(new Intent(getApplicationContext(), PpalTemaActivity.class));
+             finish();
+               return; // Para evitar seguir con la inicialización innecesaria
+         }
+
+        if (preferenseManager.getBoolean(Constant.KEY_IS_SIGNED_EMPRESA)) {
+            startActivity(new Intent(getApplicationContext(), PpalEmpresaActivity.class));
+            finish();
+            return; // Para evitar seguir con la inicialización innecesaria
+        }
 
         findViewById(R.id.btnCliente).setOnClickListener(new View.OnClickListener() {
             @Override

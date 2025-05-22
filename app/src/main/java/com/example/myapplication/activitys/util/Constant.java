@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Constant {
 
-    public static final String BASE_URL = "http://192.168.87.199:8080/";
+    public static final String BASE_URL = "http://192.168.73.199:8080/";
     public static final String KEY_FCM_TOKEN = "fcmToken";
     public static final String KEY_USER_ID = "usuarioID";
     public static final String KEY_COLLECTION_USER = "user";
@@ -27,7 +27,9 @@ public class Constant {
     public static final String REMOTE_MSG_AUTORIZATION= "Authorization";
     public static final String REMOTE_MSG_CONTENT_TIPE = "Content-Type";
     public static final String KEY_IS_SIGNED_IN = "SingIn";
-    public static final String KEY_EMPRESA_ID = "SingIn";
+
+    public static final String KEY_IS_SIGNED_EMPRESA = "SingInEmpresa";
+    public static final String KEY_EMPRESA_ID = "empresaID";
 
     public static final String REMOTE_MGS_DATA = "data";
     public static final String REMOTE_MGS_REGISTRATION_IDS = "registration_ids";

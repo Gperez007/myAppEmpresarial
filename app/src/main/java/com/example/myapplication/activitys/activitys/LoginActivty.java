@@ -51,17 +51,6 @@ public class LoginActivty extends AppCompatActivity {
 
         // Verificar si el usuario ya está logeado
         preferenseManager = new PreferenseManager(getApplicationContext());
-        if (preferenseManager.getBoolean(Constant.KEY_IS_SIGNED_IN)) {
-            startActivity(new Intent(getApplicationContext(), PpalTemaActivity.class));
-            finish();
-            return; // Para evitar seguir con la inicialización innecesaria
-        }
-
-        if (preferenseManager.getBoolean(Constant.KEY_EMPRESA_ID)) {
-            startActivity(new Intent(getApplicationContext(), PpalTemaActivity.class));
-            finish();
-            return; // Para evitar seguir con la inicialización innecesaria
-        }
 
         // Inicializar ViewBinding
         binding = ActivityLoginActivtyBinding.inflate(getLayoutInflater());
