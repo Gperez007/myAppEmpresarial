@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.activitys.adapter.PromocionAdapter;
 import com.example.myapplication.activitys.model.Promocion;
+import com.example.myapplication.activitys.util.PreferenseManager;
 import com.example.myapplication.databinding.ActivityPromocionBinding;
 import com.example.myapplication.databinding.ActivityPromocionBinding;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -26,6 +28,7 @@ public class PromocionActivity extends AppCompatActivity {
 
     private ActivityPromocionBinding binding;
     private FirebaseFirestore db;
+    private PreferenseManager preferenseManager;
     private final String empresaID = "empresa_123"; // ID de ejemplo
     private RecyclerView recyclerPromociones;
     private List<Promocion> promocionList = new ArrayList<>();
@@ -41,17 +44,42 @@ public class PromocionActivity extends AppCompatActivity {
         adapter = new PromocionAdapter(promocionList);
         recyclerPromociones.setAdapter(adapter);
         db = FirebaseFirestore.getInstance();
-
+        preferenseManager = new PreferenseManager(getApplicationContext());
+        PreferenseManager preferenseManager = new PreferenseManager(getApplicationContext());
+        String nit = preferenseManager.getString("empresaNit");
         binding.btnGuardarPromocion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                guardarPromocion();
+                obtenerEmpresaIDYGuardarPromocion(nit);
             }
         });
         obtenerPromociones();
     }
 
-    private void guardarPromocion() {
+    private void obtenerEmpresaIDYGuardarPromocion(String nitIngresado) {
+        String nitNormalizado = nitIngresado.trim().replaceAll("\\s+", "");
+
+        db.collection("empresas")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        String nitFirestore = document.getString("nit");
+
+                        if (nitFirestore != null && nitFirestore.trim().replaceAll("\\s+", "").equals(nitNormalizado)) {
+                            String empresaID = document.getId();
+                            guardarPromocion(empresaID);
+                            return; // salimos del bucle si ya se encontró
+                        }
+                    }
+
+                    Toast.makeText(this, "Empresa no encontrada", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error al obtener la empresa: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void guardarPromocion(String empresaID) {
         String titulo = binding.etTituloPromo.getText() != null ? binding.etTituloPromo.getText().toString().trim() : "";
         String descripcion = binding.etDescripcionPromo.getText() != null ? binding.etDescripcionPromo.getText().toString().trim() : "";
         String fecha = binding.etFechaPromo.getText() != null ? binding.etFechaPromo.getText().toString().trim() : "";
@@ -65,7 +93,7 @@ public class PromocionActivity extends AppCompatActivity {
         promocion.put("titulo", titulo);
         promocion.put("descripcion", descripcion);
         promocion.put("fecha", fecha);
-        promocion.put("empresaID", empresaID);
+        promocion.put("empresaID", empresaID); // Asocias la promoción con la empresa
 
         db.collection("empresas")
                 .document(empresaID)
@@ -78,6 +106,7 @@ public class PromocionActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Toast.makeText(PromocionActivity.this, "Error al guardar: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+
         obtenerPromociones();
     }
 

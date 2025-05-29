@@ -67,8 +67,16 @@ public class AdminProductosActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewProductos);
         fabAgregar = findViewById(R.id.fabAgregarProducto);
         db = FirebaseFirestore.getInstance();
+
         preferenseManager = new PreferenseManager(getApplicationContext());
-        empresaID = preferenseManager.getString("empresaID");
+        empresaID = preferenseManager.getString("empresaNit");
+
+        if (empresaID == null || empresaID.isEmpty()) {
+            Toast.makeText(this, "No se encontró el NIT de la empresa", Toast.LENGTH_LONG).show();
+            Log.e("AdminProductos", "empresaID (NIT) es null o vacío");
+            finish();
+            return;
+        }
 
         listaProductos = new ArrayList<>();
         productoAdapter = new ProductoAdapter(listaProductos);

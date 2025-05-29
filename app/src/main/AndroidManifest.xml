@@ -67,6 +67,7 @@
         <activity android:name=".activitys.activitys.PagoActivity" />
         <activity android:name=".activitys.activitys.ProductosUbicacionActivity" />
         <activity android:name=".activitys.activitys.PpalEmpresaActivity" />
+        <activity android:name=".activitys.activitys.FormularioEmpresaActivity" />
         <activity android:name=".activitys.activitys.SelectRoleActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

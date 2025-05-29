@@ -29,7 +29,7 @@ public class Constant {
     public static final String KEY_IS_SIGNED_IN = "SingIn";
 
     public static final String KEY_IS_SIGNED_EMPRESA = "SingInEmpresa";
-    public static final String KEY_EMPRESA_ID = "empresaID";
+    public static final String KEY_EMPRESA_ID = "3";
 
     public static final String REMOTE_MGS_DATA = "data";
     public static final String REMOTE_MGS_REGISTRATION_IDS = "registration_ids";

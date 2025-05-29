@@ -1,0 +1,49 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Completa los datos de tu empresa"
+            android:textSize="20sp"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etRazonSocial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Razón Social"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/etDireccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Dirección"
+            android:inputType="textPostalAddress"
+            android:layout_marginTop="8dp"/>
+
+        <EditText
+            android:id="@+id/etTelefono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Teléfono"
+            android:inputType="phone"
+            android:layout_marginTop="8dp"/>
+
+        <Button
+            android:id="@+id/btnGuardarDatos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guardar"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+
+</ScrollView>

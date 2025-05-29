@@ -19,7 +19,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.util.HashMap;
+import java.util.Map;
+
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
+
 public class EmpresaLoginActivity extends AppCompatActivity {
     private EditText editNit, editRazonSocial;
     private FirebaseFirestore db;
@@ -88,12 +92,17 @@ public class EmpresaLoginActivity extends AppCompatActivity {
                         encontrada = true;
 
                         // GUARDAR empresaID
-                        String empresaID = doc.getId(); // <--- Este es el ID del documento en Firestore
+                        String empresaID = doc.getId();
 
                         preferenseManager = new PreferenseManager(getApplicationContext());
                         preferenseManager.putBoolean(Constant.KEY_IS_SIGNED_EMPRESA, true);
-                        preferenseManager.putBoolean(Constant.KEY_EMPRESA_ID, true);
-                        preferenseManager.putString("empresaID", empresaID); // <-- Guardamos el ID
+                        preferenseManager.putString("empresaID", empresaID);
+                        preferenseManager.putString("empresaNit", nit);
+
+                        // Convertir los datos del documento a JSON
+                        Map<String, Object> empresaData = doc.getData();
+                        String datosEmpresaJson = new Gson().toJson(empresaData);
+                        preferenseManager.putString("datosEmpresa", datosEmpresaJson);
 
                         Toast.makeText(this, "Empresa autenticada: " + r, Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(this, PpalEmpresaActivity.class));
