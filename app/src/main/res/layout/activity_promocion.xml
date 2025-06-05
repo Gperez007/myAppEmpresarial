@@ -28,10 +28,24 @@
         android:layout_height="wrap_content"
         android:text="Guardar promoción" />
 
+
+    <EditText
+        android:id="@+id/etBuscarTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Buscar por título" />
+
+    <Button
+        android:id="@+id/btnBuscar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Buscar" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerPromociones"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"/>
+
 
 </LinearLayout>

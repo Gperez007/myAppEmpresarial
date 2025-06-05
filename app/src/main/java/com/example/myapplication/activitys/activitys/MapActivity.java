@@ -1,5 +1,8 @@
 package com.example.myapplication.activitys.activitys;
 
+import android.graphics.Color;
+import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -16,11 +19,23 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -51,12 +66,146 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Centrar el mapa en la ubicación fija y añadir marcador
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(UBICACION_FIJA, 15));
-        mMap.addMarker(new MarkerOptions().position(UBICACION_FIJA).title("Sogamoso, Boyacá"));
+        // Coordenadas del cliente desde el Intent
+        double clienteLat = getIntent().getDoubleExtra("lat", 0.0);
+        double clienteLng = getIntent().getDoubleExtra("lng", 0.0);
+        LatLng ubicacionCliente = new LatLng(clienteLat, clienteLng);
 
-        // Buscar lugares cercanos
-        buscarLugaresCercanos(UBICACION_FIJA.latitude, UBICACION_FIJA.longitude, "restaurant");
+        // Marcador del cliente
+        mMap.addMarker(new MarkerOptions()
+                .position(ubicacionCliente)
+                .title("Tu ubicación"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionCliente, 14));
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Obtener todas las empresas
+        db.collection("ubicacionesEmpresas")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
+                    boundsBuilder.include(ubicacionCliente); // Incluir cliente
+
+                    for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                        Double lat = doc.getDouble("latitud");
+                        Double lng = doc.getDouble("longitud");
+                        String nombre = doc.getString("razonSocial");
+
+                        if (lat != null && lng != null) {
+                            LatLng ubicacionEmpresa = new LatLng(lat, lng);
+
+                            // Añadir marcador para la empresa
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(ubicacionEmpresa)
+                                    .title(nombre != null ? nombre : "Empresa"));
+
+                            // Agregar ruta desde cliente a esta empresa
+                            obtenerRuta(ubicacionCliente, ubicacionEmpresa); // ✅ SE AGREGA AQUÍ
+
+                            // Opcional: calcular distancia
+                            float[] resultados = new float[1];
+                            Location.distanceBetween(clienteLat, clienteLng, lat, lng, resultados);
+                            float distanciaMetros = resultados[0];
+
+                            Log.d("DISTANCIA", nombre + ": " + distanciaMetros + " metros");
+
+                            // Incluir en bounds
+                            boundsBuilder.include(ubicacionEmpresa);
+                        }
+                    }
+
+                    // Ajustar cámara para mostrar todos los puntos
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 100));
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error al obtener empresas: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("Firestore", "Error al cargar empresas", e);
+                });
+    }
+
+    private void obtenerRuta(LatLng origen, LatLng destino) {
+        String url = getDirectionsUrl(origen, destino);
+        new ObtenerRutaTask().execute(url);
+    }
+
+    private String getDirectionsUrl(LatLng origin, LatLng dest) {
+        // Reemplaza con tu propia API KEY
+        String apiKey = "AIzaSyC0N9XHR9B-ezYm50C3Lnlrkuw7Rq3FZ-8";
+        return "https://maps.googleapis.com/maps/api/directions/json?origin="
+                + origin.latitude + "," + origin.longitude
+                + "&destination=" + dest.latitude + "," + dest.longitude
+                + "&sensor=false&mode=driving&key=" + apiKey;
+    }
+
+    private class ObtenerRutaTask extends AsyncTask<String, Void, List<LatLng>> {
+        @Override
+        protected List<LatLng> doInBackground(String... urls) {
+            try {
+                URL url = new URL(urls[0]);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.connect();
+                InputStream in = conn.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                StringBuilder json = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    json.append(line);
+                }
+                JSONObject jsonObject = new JSONObject(json.toString());
+                JSONArray routes = jsonObject.getJSONArray("routes");
+                if (routes.length() == 0) return null;
+                JSONObject route = routes.getJSONObject(0);
+                JSONObject overviewPolyline = route.getJSONObject("overview_polyline");
+                String encodedPoints = overviewPolyline.getString("points");
+                return decodePoly(encodedPoints);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<LatLng> puntos) {
+            if (puntos != null) {
+                PolylineOptions polylineOptions = new PolylineOptions()
+                        .addAll(puntos)
+                        .color(Color.BLUE)
+                        .width(10);
+                mMap.addPolyline(polylineOptions);
+            }
+        }
+    }
+
+    private List<LatLng> decodePoly(String encoded) {
+        List<LatLng> poly = new ArrayList<>();
+        int index = 0, len = encoded.length();
+        int lat = 0, lng = 0;
+
+        while (index < len) {
+            int b, shift = 0, result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lat += dlat;
+
+            shift = 0;
+            result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lng += dlng;
+
+            LatLng p = new LatLng(((double) lat / 1E5), ((double) lng / 1E5));
+            poly.add(p);
+        }
+
+        return poly;
     }
 
     private void buscarLugaresCercanos(double latitud, double longitud, String tipoNegocio) {

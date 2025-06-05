@@ -103,6 +103,8 @@ public class EmpresaLoginActivity extends AppCompatActivity {
                         Map<String, Object> empresaData = doc.getData();
                         String datosEmpresaJson = new Gson().toJson(empresaData);
                         preferenseManager.putString("datosEmpresa", datosEmpresaJson);
+                        String empresaUID = doc.getId(); // o simplemente usa empresaID = doc.getId();
+                        preferenseManager.putString("empresaUID", empresaUID); // GUARDAR EL ID ÚNICO DEL DOCUMENTO
 
                         Toast.makeText(this, "Empresa autenticada: " + r, Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(this, PpalEmpresaActivity.class));

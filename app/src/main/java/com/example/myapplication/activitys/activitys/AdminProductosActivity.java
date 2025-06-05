@@ -90,20 +90,26 @@ public class AdminProductosActivity extends AppCompatActivity {
 
     // Carga productos desde Firestore
     private void cargarProductos() {
-        db.collection("empresas").document(empresaID).collection("productos")
+        String empresaUID = preferenseManager.getString("empresaUID"); // Obtener el UID guardado
+
+        db.collection("empresas")
+                .document(empresaUID)
+                .collection("productos")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     listaProductos.clear();
                     for (DocumentSnapshot doc : queryDocumentSnapshots) {
                         Producto producto = doc.toObject(Producto.class);
                         if (producto != null) {
-                            producto.setId(doc.getId());
+                            producto.setId(doc.getId()); // Asigna ID del documento al modelo
                             listaProductos.add(producto);
                         }
                     }
-                    productoAdapter.notifyDataSetChanged();
+                    productoAdapter.notifyDataSetChanged(); // Actualiza el RecyclerView
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Error al cargar productos", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Error al cargar productos", Toast.LENGTH_SHORT).show()
+                );
     }
 
     // Dialogo para agregar producto
@@ -208,18 +214,26 @@ public class AdminProductosActivity extends AppCompatActivity {
 
     // Guardar producto con URL imagen en Firestore
     private void guardarProductoEnFirestore() {
+        // Obtener empresaUID desde PreferenseManager
+        String empresaUID = preferenseManager.getString("empresaUID");
+
+        // Crear objeto producto
         Producto producto = new Producto(nombreTmp, descripcionTmp, precioTmp);
 
-        db.collection("empresas").document(empresaID).collection("productos")
+        // Guardar en Firestore dentro de la colección correspondiente
+        db.collection("empresas")
+                .document(empresaUID)
+                .collection("productos")
                 .add(producto)
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(this, "Producto agregado sin imagen", Toast.LENGTH_SHORT).show();
-                    cargarProductos();
-                    if (dialogActual != null) dialogActual.dismiss();
-                    // Limpiar bitmap seleccionado
-                    imagenSeleccionada = null;
+                    cargarProductos(); // Recarga la lista
+                    if (dialogActual != null) dialogActual.dismiss(); // Cierra el diálogo
+                    imagenSeleccionada = null; // Limpia imagen seleccionada
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Error al guardar producto", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Error al guardar producto", Toast.LENGTH_SHORT).show()
+                );
     }
 
     private void mostrarOpcionesImagen() {

@@ -95,8 +95,8 @@ public class PpalEmpresaActivity extends AppCompatActivity {
 
         String[] mensajesBienvenida = new String[]{
                 "¡Hola " + nombreEmpresa + "! Bienvenido a tu asistente empresarial 🤖",
-                "Estoy aquí para ayudarte a organizar mejor tu negocio.",
-                "¿Te parece si comenzamos con algunos datos básicos?"
+                //"Estoy aquí para ayudarte a organizar mejor tu negocio.",
+                //"¿Te parece si comenzamos con algunos datos básicos?"
         };
 
         Handler handler = new Handler();
@@ -119,9 +119,9 @@ public class PpalEmpresaActivity extends AppCompatActivity {
 
         final String[] mensajes = new String[]{
                 "¡Hola " + nombreEmpresa + "!",
-                "Estoy aquí para ayudarte a organizar mejor tu negocio.",
-                "¿Te parece si comenzamos con algunos datos básicos?",
-                "Estoy aquí siempre que me necesites."
+               // "Estoy aquí para ayudarte a organizar mejor tu negocio.",
+               // "¿Te parece si comenzamos con algunos datos básicos?",
+                //"Estoy aquí siempre que me necesites."
         };
 
         final Handler repeatHandler = new Handler();
