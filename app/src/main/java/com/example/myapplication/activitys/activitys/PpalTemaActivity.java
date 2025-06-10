@@ -85,7 +85,7 @@ public class PpalTemaActivity extends AppCompatActivity {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         findViewById(R.id.btnIrAlChat).setOnClickListener(v -> {
-            Intent intent = new Intent(PpalTemaActivity.this, ChatAtencionClienteActivity.class);
+            Intent intent = new Intent(PpalTemaActivity.this, ServicioClienteChatActivity.class);
             startActivity(intent);
         });
 

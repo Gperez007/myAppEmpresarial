@@ -12,5 +12,7 @@
     <string name="skin_intro">SKIN INTRO</string>
     <string name="next">Next</string>
     <string name="google_maps_key">AIzaSyC0N9XHR9B-ezYm50C3Lnlrkuw7Rq3FZ-8</string>
-
+    <string name="selecciona_departamento">Selecciona un departamento</string>
+    <string name="selecciona_ciudad">Selecciona un departamento</string>
+    <string name="selecciona_empresa">Selecciona un departamento</string>
 </resources>

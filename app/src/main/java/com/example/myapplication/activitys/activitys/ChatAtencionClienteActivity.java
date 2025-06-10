@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.activitys.adapter.ChatAtencionclienteAdapter;
+import com.example.myapplication.activitys.model.Empresa;
 import com.example.myapplication.activitys.model.Mensaje;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,8 @@ public class ChatAtencionClienteActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ChatAtencionclienteAdapter chatAdapter;
     private List<Mensaje> listaMensajes;
+    private Empresa datosEmpresa; // Variable global para guardar los datos
+    private String empresaID;
 
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
 
@@ -35,6 +39,8 @@ public class ChatAtencionClienteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_atencion_cliente);
+
+        String empresaID = getIntent().getStringExtra("empresaID");
 
         inputChat = findViewById(R.id.inputChat);
         btnEnviar = findViewById(R.id.btnEnviar);
@@ -51,13 +57,25 @@ public class ChatAtencionClienteActivity extends AppCompatActivity {
             if (!mensaje.isEmpty()) {
                 agregarMensaje("usuario", mensaje);
                 inputChat.setText("");
-                responderIA(mensaje);  // <<<< Asegúrate de tener esto
+                responderIA(mensaje);
             }
         });
+        empresaID = getIntent().getStringExtra("empresaID");
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("ubicacionesEmpresas")
+                .document(empresaID)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        datosEmpresa = documentSnapshot.toObject(Empresa.class);
+                    }
+                });
 
         btnMicrofono.setOnClickListener(v -> iniciarReconocimientoVoz());
-    }
 
+        Toast.makeText(this, "empresaID: " + empresaID, Toast.LENGTH_SHORT).show(); // Puedes quitar esto luego
+    }
     private void iniciarReconocimientoVoz() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -90,12 +108,27 @@ public class ChatAtencionClienteActivity extends AppCompatActivity {
     }
 
     private void responderIA(String entradaUsuario) {
-        String respuesta = "No entendí eso, intenta otra vez.";
-
-        if (entradaUsuario.toLowerCase().contains("telefono")) {
-            respuesta = "El teléfono de la empresa es: 123-456-789";
+        if (datosEmpresa == null) {
+            agregarMensaje("bot", "Cargando datos de la empresa, por favor espera...");
+            return;
         }
 
-        agregarMensaje("bot", respuesta);  // <<<< Esto muestra la respuesta
+        String mensaje = entradaUsuario.toLowerCase();
+        String respuesta = "Lo siento, no entendí tu pregunta. Puedes preguntar por dirección, teléfono, devolución o reclamos.";
+
+        if (mensaje.contains("teléfono") || mensaje.contains("telefono")) {
+            respuesta = "El teléfono de la empresa " + datosEmpresa.razonSocial + " es: " + datosEmpresa.telefono;
+        } else if (mensaje.contains("dirección") || mensaje.contains("direccion")) {
+            respuesta = "La dirección de " + datosEmpresa.razonSocial + " es: " + datosEmpresa.direccion;
+        } else if (mensaje.contains("devolución") || mensaje.contains("devoluciones")) {
+            respuesta = "Política de devoluciones: " + datosEmpresa.politicaDevolucion;
+        } else if (mensaje.contains("reclamo") || mensaje.contains("reclamos")) {
+            respuesta = "Política de reclamos: " + datosEmpresa.politicaReclamos;
+        } else if (mensaje.contains("nit")) {
+            respuesta = "El NIT de la empresa es: " + datosEmpresa.nit;
+        }
+
+        agregarMensaje("bot", respuesta);
     }
+
 }
