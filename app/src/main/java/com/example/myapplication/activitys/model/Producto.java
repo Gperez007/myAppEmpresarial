@@ -1,6 +1,8 @@
 package com.example.myapplication.activitys.model;
 
-public class Producto {
+import java.io.Serializable;
+
+public class Producto implements Serializable {
     private String id;
     private String nombre;
     private String descripcion;

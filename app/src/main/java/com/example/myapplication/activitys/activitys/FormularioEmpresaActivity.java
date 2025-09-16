@@ -39,7 +39,7 @@
         private FusedLocationProviderClient fusedLocationClient;
         private double latitud = 0.0;
         private double longitud = 0.0;
-        private EditText etPoliticaDevolucion, etPoliticaReclamos;
+        private EditText etPoliticaDevolucion, etPoliticaReclamos, etDetalleEmpresa;
         private Spinner spinnerDepartamento, spinnerCiudad;
         private Map<String, String> departamentosMap = new HashMap<>();
         private Map<String, String> ciudadesMap = new HashMap<>();
@@ -53,6 +53,7 @@
             db = FirebaseFirestore.getInstance();
 
             etPoliticaDevolucion = findViewById(R.id.etPoliticaDevolucion);
+            etDetalleEmpresa = findViewById(R.id.etDetalleEmpresa);
             etPoliticaReclamos = findViewById(R.id.etPoliticaReclamos);
             etRazonSocial = findViewById(R.id.etRazonSocial);
             etDireccion = findViewById(R.id.etDireccion);
@@ -73,6 +74,7 @@
                 etRazonSocial.setText((String) empresaData.get("razonSocial"));
                 etDireccion.setText((String) empresaData.get("direccion"));
                 etTelefono.setText((String) empresaData.get("telefono"));
+                etDetalleEmpresa.setText((String) empresaData.get("descripcionEmpresa"));
                 etPoliticaDevolucion.setText((String) empresaData.get("politicaDevolucion"));
                 etPoliticaReclamos.setText((String) empresaData.get("politicaReclamos"));
             }
@@ -81,6 +83,8 @@
             if (empresaData != null) {
                 cargarDepartamentosConDatosExistentes(empresaData);
             } else {
+                cargarDatosDesdeFirestore();
+                cargarDatosExistentes();
                 cargarDepartamentos(); // flujo normal sin preselección
             }
 
@@ -225,24 +229,25 @@
                 etRazonSocial.setText((String) empresaData.get("razonSocial"));
                 etDireccion.setText((String) empresaData.get("direccion"));
                 etTelefono.setText((String) empresaData.get("telefono"));
+                etDetalleEmpresa.setText((String) empresaData.get("descripcionEmpresa"));
                 etPoliticaDevolucion.setText((String) empresaData.get("politicaDevolucion"));
                 etPoliticaReclamos.setText((String) empresaData.get("politicaReclamos"));
 
                 // 🔄 Cargar departamento y ciudad en los spinners
-                String departamento = (String) empresaData.get("departamento");
-                String ciudad = (String) empresaData.get("ciudad");
+                //String departamento = (String) empresaData.get("departamento");
+                //String ciudad = (String) empresaData.get("ciudad");
 
-                if (departamento != null) {
-                    int indexDepto = ((ArrayAdapter<String>) spinnerDepartamento.getAdapter())
-                            .getPosition(departamento);
-                    if (indexDepto >= 0) spinnerDepartamento.setSelection(indexDepto);
-                }
+                //if (departamento != null) {
+                  //  int indexDepto = ((ArrayAdapter<String>) spinnerDepartamento.getAdapter())
+               //             .getPosition(departamento);
+                  //  if (indexDepto >= 0) spinnerDepartamento.setSelection(indexDepto);
+               // }
 
-                if (ciudad != null) {
-                    int indexCiudad = ((ArrayAdapter<String>) spinnerCiudad.getAdapter())
-                            .getPosition(ciudad);
-                    if (indexCiudad >= 0) spinnerCiudad.setSelection(indexCiudad);
-                }
+                //if (ciudad != null) {
+                   // int indexCiudad = ((ArrayAdapter<String>) spinnerCiudad.getAdapter())
+                   //        .getPosition(ciudad);
+                    //if (indexCiudad >= 0) spinnerCiudad.setSelection(indexCiudad);
+              //  }
 
                 // 📝 Opcional: puedes guardar/usar departamentoID y ciudadID si los necesitas luego
                 // String departamentoID = (String) empresaData.get("departamentoID");
@@ -265,6 +270,7 @@
                                 etRazonSocial.setText((String) data.get("razonSocial"));
                                 etDireccion.setText((String) data.get("direccion"));
                                 etTelefono.setText((String) data.get("telefono"));
+                                etDetalleEmpresa.setText((String) data.get("descripcionEmpresa"));
                                 etPoliticaDevolucion.setText((String) data.get("politicaDevolucion"));
                                 etPoliticaReclamos.setText((String) data.get("politicaReclamos"));
 
@@ -276,18 +282,16 @@
                                 String departamento = (String) data.get("departamento");
                                 String ciudad = (String) data.get("ciudad");
 
-                                if (departamento != null) {
-                                    int indexDepto = ((ArrayAdapter<String>) spinnerDepartamento.getAdapter())
-                                            .getPosition(departamento);
+
+                                if (departamento != null && spinnerDepartamento.getAdapter() != null) {
+                                    int indexDepto = ((ArrayAdapter<String>) spinnerDepartamento.getAdapter()).getPosition(departamento);
                                     if (indexDepto >= 0) spinnerDepartamento.setSelection(indexDepto);
                                 }
 
-                                if (ciudad != null) {
-                                    int indexCiudad = ((ArrayAdapter<String>) spinnerCiudad.getAdapter())
-                                            .getPosition(ciudad);
+                                if (ciudad != null && spinnerCiudad.getAdapter() != null) {
+                                    int indexCiudad = ((ArrayAdapter<String>) spinnerCiudad.getAdapter()).getPosition(ciudad);
                                     if (indexCiudad >= 0) spinnerCiudad.setSelection(indexCiudad);
                                 }
-
                                 // Opcional: puedes usar departamentoID y ciudadID si deseas validar contra Firestore
                                 // String departamentoID = (String) data.get("departamentoID");
                                 // String ciudadID = (String) data.get("ciudadID");
@@ -311,63 +315,20 @@
             }
         }
 
-        private void guardarDepartamentoBoyaca() {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-            // Crear documento del departamento
-            Map<String, Object> cundinamarca = new HashMap<>();
-            cundinamarca.put("nombre", "Cundinamarca");
-
-            db.collection("ubicaciones").document("CUN001")
-                    .set(cundinamarca)
-                    .addOnSuccessListener(aVoid -> {
-                        // Lista de municipios/ciudades
-                        Map<String, String> ciudades = new HashMap<>();
-                        ciudades.put("BOG001", "Bogotá D.C.");
-                        ciudades.put("FAC001", "Facatativá");
-                        ciudades.put("SOA001", "Soacha");
-                        ciudades.put("ZIP001", "Zipaquirá");
-                        ciudades.put("CHI001", "Chía");
-                        ciudades.put("FUS001", "Fusagasugá");
-                        ciudades.put("GIR001", "Girardot");
-                        ciudades.put("MOS001", "Mosquera");
-                        ciudades.put("MAD001", "Madrid");
-                        ciudades.put("FUN001", "Funza");
-                        ciudades.put("LA001", "La Calera");
-                        ciudades.put("TENA001", "Tenjo");
-                        ciudades.put("TOC001", "Tocancipá");
-                        ciudades.put("SIB001", "Sibaté");
-                        ciudades.put("CAJ001", "Cajicá");
-                        ciudades.put("UBT001", "Ubaté");
-                        ciudades.put("ZIP002", "Zipacón");
-                        ciudades.put("SOP001", "Sopó");
-                        ciudades.put("TAB001", "Tabio");
-                        ciudades.put("GAC001", "Gachetá");
-                        // Puedes agregar más si deseas...
-
-                        for (Map.Entry<String, String> entry : ciudades.entrySet()) {
-                            Map<String, Object> ciudad = new HashMap<>();
-                            ciudad.put("nombre", entry.getValue());
-
-                            db.collection("ubicaciones").document("CUN001")
-                                    .collection("ciudades")
-                                    .document(entry.getKey())
-                                    .set(ciudad);
-                        }
-
-                        Log.d("Firestore", "Cundinamarca y ciudades agregadas correctamente");
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.e("FirestoreError", "Error al guardar Cundinamarca: " + e.getMessage());
-                    });
-        }
-
         private void guardarDatosEmpresa() {
             String razonSocial = etRazonSocial.getText().toString().trim();
             String direccion = etDireccion.getText().toString().trim();
             String telefono = etTelefono.getText().toString().trim();
+            String detalleEmpresa = etDetalleEmpresa.getText().toString().trim();
             String politicaDevolucion = etPoliticaDevolucion.getText().toString().trim();
             String politicaReclamos = etPoliticaReclamos.getText().toString().trim();
+
+            // ✅ Validación aquí:
+            if (spinnerDepartamento.getSelectedItem() == null || spinnerCiudad.getSelectedItem() == null) {
+                Toast.makeText(this, "Selecciona un departamento y una ciudad", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
 
             if (razonSocial.isEmpty()) {
                 etRazonSocial.setError("Campo requerido");
@@ -393,6 +354,7 @@
                 empresaData.put("empresaID", empresaUID);
                 empresaData.put("direccion", direccion);
                 empresaData.put("telefono", telefono);
+                empresaData.put("descripcionEmpresa", detalleEmpresa);
                 empresaData.put("politicaDevolucion", politicaDevolucion);
                 empresaData.put("politicaReclamos", politicaReclamos);
 

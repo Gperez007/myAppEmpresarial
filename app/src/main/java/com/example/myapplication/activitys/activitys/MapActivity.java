@@ -87,69 +87,48 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;  // Esto lo puedes poner arriba, para no repetir en los dos if
 
-        if (!mostrarEmpresas) {
-            // Coordenadas del cliente desde el Intent
-            double clienteLat = getIntent().getDoubleExtra("lat", 0.0);
-            double clienteLng = getIntent().getDoubleExtra("lng", 0.0);
-            LatLng ubicacionCliente = new LatLng(clienteLat, clienteLng);
+        if (!mostrarEmpresas) if (!mostrarEmpresas) {
+            // Obtener coordenadas del cliente y empresa desde el Intent
+            double clienteLat = getIntent().getDoubleExtra("lat_usuario", 0.0);
+            double clienteLng = getIntent().getDoubleExtra("lng_usuario", 0.0);
+            double empresaLat = getIntent().getDoubleExtra("lat_empresa", 0.0);
+            double empresaLng = getIntent().getDoubleExtra("lng_empresa", 0.0);
+            String nombreEmpresa = getIntent().getStringExtra("nombre");
 
-            // Marcador del cliente
+            LatLng ubicacionCliente = new LatLng(clienteLat, clienteLng);
+            LatLng ubicacionEmpresa = new LatLng(empresaLat, empresaLng);
+
+            // Añadir marcador del cliente
             mMap.addMarker(new MarkerOptions()
                     .position(ubicacionCliente)
                     .title("Tu ubicación"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionCliente, 14));
 
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            // Añadir marcador de la empresa
+            mMap.addMarker(new MarkerOptions()
+                    .position(ubicacionEmpresa)
+                    .title(nombreEmpresa != null ? nombreEmpresa : "Empresa"));
 
-            // Obtener todas las empresas
-            db.collection("ubicacionesEmpresas")
-                    .get()
-                    .addOnSuccessListener(queryDocumentSnapshots -> {
-                        LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
-                        boundsBuilder.include(ubicacionCliente); // Incluir cliente
+            // Dibujar ruta
+            obtenerRuta(ubicacionCliente, ubicacionEmpresa);
 
-                        for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
-                            Double lat = doc.getDouble("latitud");
-                            Double lng = doc.getDouble("longitud");
-                            String nombre = doc.getString("razonSocial");
+            // Ajustar cámara para mostrar ambos puntos
+            LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
+            boundsBuilder.include(ubicacionCliente);
+            boundsBuilder.include(ubicacionEmpresa);
 
-                            if (lat != null && lng != null) {
-                                LatLng ubicacionEmpresa = new LatLng(lat, lng);
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            if (mapFragment != null && mapFragment.getView() != null) {
+                mapFragment.getView().post(() -> {
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 100));
+                });
+            }
 
-                                // Añadir marcador para la empresa
-                                mMap.addMarker(new MarkerOptions()
-                                        .position(ubicacionEmpresa)
-                                        .title(nombre != null ? nombre : "Empresa"));
-
-                                // Agregar ruta desde cliente a esta empresa
-                                obtenerRuta(ubicacionCliente, ubicacionEmpresa);
-
-                                // Calcular distancia
-                                float[] resultados = new float[1];
-                                Location.distanceBetween(clienteLat, clienteLng, lat, lng, resultados);
-                                float distanciaMetros = resultados[0];
-
-                                Log.d("DISTANCIA", nombre + ": " + distanciaMetros + " metros");
-
-                                // Incluir en bounds
-                                boundsBuilder.include(ubicacionEmpresa);
-                            }
-                        }
-
-                        // Ajustar cámara para mostrar todos los puntos DE MANERA SEGURA
-                        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                                .findFragmentById(R.id.map);
-                        if (mapFragment != null && mapFragment.getView() != null) {
-                            mapFragment.getView().post(() -> {
-                                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 100));
-                            });
-                        }
-
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Error al obtener empresas: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.e("Firestore", "Error al cargar empresas", e);
-                    });
+            // Calcular distancia
+            float[] resultados = new float[1];
+            Location.distanceBetween(clienteLat, clienteLng, empresaLat, empresaLng, resultados);
+            float distanciaMetros = resultados[0];
+            Log.d("DISTANCIA", "Distancia a empresa: " + distanciaMetros + " metros");
         } else if (mostrarEmpresas) {
             // Coordenadas del cliente desde el Intent
             double clienteLat = getIntent().getDoubleExtra("lat", 0.0);

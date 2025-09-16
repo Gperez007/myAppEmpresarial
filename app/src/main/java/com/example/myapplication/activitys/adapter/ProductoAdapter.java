@@ -16,9 +16,22 @@ import java.util.List;
 public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ProductoViewHolder> {
 
     private List<Producto> productos;
+    private OnProductoClickListener listener;
 
+    public interface OnProductoClickListener {
+        void onAgregarAlCarrito(Producto producto);
+    }
+
+    // Constructor principal
+    public ProductoAdapter(List<Producto> productos, OnProductoClickListener listener) {
+        this.productos = productos;
+        this.listener = listener;
+    }
+
+    // Constructor opcional (solo lista)
     public ProductoAdapter(List<Producto> productos) {
         this.productos = productos;
+        this.listener = null;
     }
 
     @NonNull
@@ -35,6 +48,12 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
         holder.txtNombre.setText(producto.getNombre());
         holder.txtDescripcion.setText(producto.getDescripcion());
         holder.txtPrecio.setText("$" + producto.getPrecio());
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onAgregarAlCarrito(producto);
+            }
+        });
     }
 
     @Override

@@ -59,6 +59,15 @@
             android:layout_marginTop="8dp" />
 
         <EditText
+            android:id="@+id/etDetalleEmpresa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Detalles Empresa"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:layout_marginTop="8dp" />
+
+        <EditText
             android:id="@+id/etPoliticaReclamos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

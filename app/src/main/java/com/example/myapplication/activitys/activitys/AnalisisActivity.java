@@ -1,6 +1,7 @@
 package com.example.myapplication.activitys.activitys;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,6 +30,13 @@ public class AnalisisActivity extends AppCompatActivity {
         binding.tvTotalVentas.setText("$12,450");
         binding.tvGanancias.setText("$4,230");
         binding.tvProductosVendidos.setText("387");
+
+        binding.btnVentaRapida.setOnClickListener(v -> {
+            new VentaRapidaDialog(this, venta -> {
+                Toast.makeText(this, "Venta registrada: $" + venta.getMonto(), Toast.LENGTH_SHORT).show();
+                // Aquí puedes guardar en SQLite o Firebase
+            });
+        });
 
         setupBarChart();
     }

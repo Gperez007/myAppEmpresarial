@@ -193,8 +193,9 @@ public class PpalTemaActivity extends AppCompatActivity {
             }
         }, Looper.getMainLooper());
     }
+
     private void mostrarTiendasCercanas(double lat, double lng) {
-        Intent intent = new Intent(this, MapActivity.class);
+        Intent intent = new Intent(this, SearchCategoryActivity.class);
         intent.putExtra("lat", lat);
         intent.putExtra("lng", lng);
         startActivity(intent);

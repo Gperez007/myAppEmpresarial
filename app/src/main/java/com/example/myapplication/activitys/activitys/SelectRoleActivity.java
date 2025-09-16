@@ -51,5 +51,14 @@ public class SelectRoleActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        findViewById(R.id.btnDomiciliario).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SelectRoleActivity.this, DomiciliarioLoginActivity.class);
+                intent.putExtra("user_role", "domiciliario");
+                startActivity(intent);
+            }
+        });
     }
 }

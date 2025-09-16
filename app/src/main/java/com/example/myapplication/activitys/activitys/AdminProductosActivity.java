@@ -79,7 +79,13 @@ public class AdminProductosActivity extends AppCompatActivity {
         }
 
         listaProductos = new ArrayList<>();
-        productoAdapter = new ProductoAdapter(listaProductos);
+        productoAdapter = new ProductoAdapter(listaProductos, new ProductoAdapter.OnProductoClickListener() {
+            @Override
+            public void onAgregarAlCarrito(Producto producto) {
+                // Aquí haces lo que quieras al agregar al carrito
+                Toast.makeText(AdminProductosActivity.this, "Agregado: " + producto.getNombre(), Toast.LENGTH_SHORT).show();
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(productoAdapter);
 

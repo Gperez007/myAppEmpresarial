@@ -69,6 +69,12 @@
         <activity android:name=".activitys.activitys.PpalEmpresaActivity" />
         <activity android:name=".activitys.activitys.FormularioEmpresaActivity" />
         <activity android:name=".activitys.activitys.ServicioClienteChatActivity" />
+        <activity android:name=".activitys.activitys.StoreDetailActivity" />
+        <activity android:name=".activitys.activitys.SearchCategoryActivity" />
+        <activity android:name=".activitys.activitys.CarritoActivity" />
+        <activity android:name=".activitys.activitys.DomiciliarioLoginActivity" />
+        <activity android:name=".activitys.activitys.DomiciliarioRegistroActivity" />
+        <activity android:name=".activitys.activitys.PpalDomiciliarioActivity" />
         <activity android:name=".activitys.activitys.SelectRoleActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
