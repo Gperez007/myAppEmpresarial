@@ -203,16 +203,13 @@ public class LoginActivty extends AppCompatActivity {
         finish();
     }
 
-    private void loading(Boolean isLoading){
-
-        if(isLoading){
-
+    private void loading(Boolean isLoading) {
+        if (isLoading) {
             binding.buttonIngresar.setVisibility(View.INVISIBLE);
-            binding.ProgressBar.setVisibility(View.VISIBLE);
-        }else {
-            binding.ProgressBar.setVisibility(View.INVISIBLE);
+            binding.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            binding.progressBar.setVisibility(View.INVISIBLE);
             binding.buttonIngresar.setVisibility(View.VISIBLE);
-
         }
     }
 

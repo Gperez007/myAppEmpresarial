@@ -1,4 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set xmlns:android="http://schemas.android.com/apk/res/android">
-  
-</set>
+<selector xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="MissingDefaultResource">
+    <!-- Estado presionado -->
+    <item android:state_pressed="true">
+        <set>
+            <objectAnimator
+                android:propertyName="scaleX"
+                android:valueFrom="1"
+                android:valueTo="0.95"
+                android:valueType="floatType"
+                android:duration="100"/>
+            <objectAnimator
+                android:propertyName="scaleY"
+                android:valueFrom="1"
+                android:valueTo="0.95"
+                android:valueType="floatType"
+                android:duration="100"/>
+        </set>
+    </item>
+
+    <!-- Estado normal -->
+    <item>
+        <set>
+            <objectAnimator
+                android:propertyName="scaleX"
+                android:valueFrom="0.95"
+                android:valueTo="1"
+                android:valueType="floatType"
+                android:duration="100"/>
+            <objectAnimator
+                android:propertyName="scaleY"
+                android:valueFrom="0.95"
+                android:valueTo="1"
+                android:valueType="floatType"
+                android:duration="100"/>
+        </set>
+    </item>
+</selector>

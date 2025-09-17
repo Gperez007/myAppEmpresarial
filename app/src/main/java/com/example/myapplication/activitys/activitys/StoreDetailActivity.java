@@ -6,11 +6,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +24,7 @@ import com.example.myapplication.activitys.model.Producto;
 import com.example.myapplication.activitys.network.ApiService;
 import com.example.myapplication.activitys.network.ApiService;
 import com.example.myapplication.activitys.network.Apiclient;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -48,86 +53,141 @@ public class StoreDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_detail);
+
+        // ----------------------
+        // Drawer y navegación
+        // ----------------------
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.navigationView);
+        ImageButton btnMenu = findViewById(R.id.btnMenu);
+
+        // Abrir Drawer al pulsar el botón de menú
+        btnMenu.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
+
+        // ----------------------
+        // Carrito
+        // ----------------------
         TextView txtCarritoCount = findViewById(R.id.txtCarritoCount);
-        // Obtener coordenadas
+        carrito = new ArrayList<>();
+
+        txtCarritoCount.setOnClickListener(v -> {
+            Intent intent = new Intent(StoreDetailActivity.this, CarritoActivity.class);
+            intent.putExtra("carrito", new ArrayList<>(carrito));
+            startActivity(intent);
+        });
+
+        // ----------------------
+        // Coordenadas
+        // ----------------------
         latUsuario = getIntent().getDoubleExtra("lat_usuario", 0.0);
         lngUsuario = getIntent().getDoubleExtra("lng_usuario", 0.0);
         latEmpresa = getIntent().getDoubleExtra("lat_empresa", 0.0);
         lngEmpresa = getIntent().getDoubleExtra("lng_empresa", 0.0);
+
+        // ----------------------
+        // RecyclerView de productos
+        // ----------------------
         recyclerProductos = findViewById(R.id.recyclerProductos);
         listaProductos = new ArrayList<>();
-        carrito = new ArrayList<>();
         adapter = new ProductoAdapter(listaProductos, producto -> {
-            // Agregar al carrito
             carrito.add(producto);
-
-            // Actualizar el contador en el TextView
             txtCarritoCount.setText("Productos en carrito: " + carrito.size());
-
             Toast.makeText(this, producto.getNombre() + " agregado al carrito", Toast.LENGTH_SHORT).show();
         });
         recyclerProductos.setAdapter(adapter);
+
+        // Grid de 2 columnas
+        recyclerProductos.setLayoutManager(new GridLayoutManager(this, 2));
+
         db = FirebaseFirestore.getInstance();
-        // Obtener datos de la empresa
+
+        // ----------------------
+        // Información de la tienda
+        // ----------------------
         String nombreEmpresa = getIntent().getStringExtra("nombre");
         String nit = getIntent().getStringExtra("nit");
         telefonoEmpresa = getIntent().getStringExtra("telefono");
         String direccion = getIntent().getStringExtra("direccion");
         String politicaReclamos = getIntent().getStringExtra("politicaReclamos");
         String politicaDevolucion = getIntent().getStringExtra("politicaDevolucion");
-        // Enlazar vistas
+
         TextView txtNombre = findViewById(R.id.storeName);
         TextView txtDireccion = findViewById(R.id.storeAddress);
-        TextView txtTelefono = findViewById(R.id.storePhone);
-        LinearLayout politicasLayout = findViewById(R.id.politicasLayout);
-        Button btnChatCliente = findViewById(R.id.btnChatCliente);
-        cargarProductos(nit);
-        RecyclerView recyclerProductos = findViewById(R.id.recyclerProductos);
-        recyclerProductos.setLayoutManager(new LinearLayoutManager(this));
 
-        // Asignar datos
         txtNombre.setText(nombreEmpresa != null ? nombreEmpresa : "Nombre no disponible");
         txtDireccion.setText(direccion != null ? direccion : "Dirección no disponible");
-        txtTelefono.setText("Teléfono: " + (telefonoEmpresa != null ? telefonoEmpresa : "No disponible"));
 
-        // Mostrar políticas en un modal al hacer clic
-        politicasLayout.setOnClickListener(v -> {
+        // ----------------------
+        // Políticas
+        // ----------------------
+        // Puedes usar el primer item del menú para "Chat/políticas" o un LinearLayout extra
+        navigationView.getMenu().findItem(R.id.menu_chat).setOnMenuItemClickListener(item -> {
             String mensaje = "";
-
-            if (politicaReclamos != null && !politicaReclamos.isEmpty()) {
-                mensaje += "Política de Reclamos:\n" + politicaReclamos + "\n\n";
-            } else {
-                mensaje += "Política de Reclamos: No disponible\n\n";
-            }
-
-            if (politicaDevolucion != null && !politicaDevolucion.isEmpty()) {
-                mensaje += "Política de Devoluciones:\n" + politicaDevolucion;
-            } else {
-                mensaje += "Política de Devoluciones: No disponible";
-            }
+            mensaje += (politicaReclamos != null && !politicaReclamos.isEmpty()) ?
+                    "Política de Reclamos:\n" + politicaReclamos + "\n\n" :
+                    "Política de Reclamos: No disponible\n\n";
+            mensaje += (politicaDevolucion != null && !politicaDevolucion.isEmpty()) ?
+                    "Política de Devoluciones:\n" + politicaDevolucion :
+                    "Política de Devoluciones: No disponible";
 
             new AlertDialog.Builder(StoreDetailActivity.this)
                     .setTitle("Políticas de la Empresa")
                     .setMessage(mensaje)
                     .setPositiveButton("Cerrar", null)
                     .show();
+
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
         });
 
-        // Botón Chat de atención al cliente
-        btnChatCliente.setOnClickListener(v -> {
-            // En el futuro puedes abrir una actividad de chat real aquí
-            Toast.makeText(this, "Abrir chat de atención al cliente...", Toast.LENGTH_SHORT).show();
+        // ----------------------
+        // Menú lateral NavigationView
+        // ----------------------
+        navigationView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.menu_order) {
+                Toast.makeText(this, "Función de pedir a domicilio aún no disponible", Toast.LENGTH_SHORT).show();
+            } else if (id == R.id.menu_map) {
+                Intent intent = new Intent(this, MapActivity.class);
+                intent.putExtra("lat_empresa", latEmpresa);
+                intent.putExtra("lng_empresa", lngEmpresa);
+                intent.putExtra("lat_usuario", latUsuario);
+                intent.putExtra("lng_usuario", lngUsuario);
+                intent.putExtra("nombre", nombreEmpresa);
+                startActivity(intent);
+            } else if (id == R.id.menu_favorite) {
+                Toast.makeText(this, "Tienda guardada como favorita", Toast.LENGTH_SHORT).show();
+            } else if (id == R.id.menu_comments) {
+                Toast.makeText(this, "Ver comentarios...", Toast.LENGTH_SHORT).show();
+            } else if (id == R.id.menu_share) {
+                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                sendIntent.setType("text/plain");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Te recomiendo visitar " + nombreEmpresa);
+                startActivity(Intent.createChooser(sendIntent, "Compartir vía"));
+            } else if (id == R.id.menu_chat) {
+                Toast.makeText(this, "Abrir chat de atención al cliente...", Toast.LENGTH_SHORT).show();
+            }
+
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
         });
 
-        // Botones restantes
+        // ----------------------
+        // Botones fuera del Drawer
+        // ----------------------
         Button btnCall = findViewById(R.id.btnCall);
-        Button btnOrder = findViewById(R.id.btnOrder);
-        Button btnMap = findViewById(R.id.btnMap);
-        Button btnFavorite = findViewById(R.id.btnFavorite);
-        Button btnShare = findViewById(R.id.btnShare);
-        Button btnComments = findViewById(R.id.btnComments);
+        Button btnPromociones = findViewById(R.id.btnPromociones);
 
-        Button btnPromociones = findViewById(R.id.btnPromociones); // Debes ponerlo en tu XML
+        btnCall.setOnClickListener(v -> {
+            if (telefonoEmpresa != null && !telefonoEmpresa.isEmpty()) {
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + telefonoEmpresa));
+                startActivity(callIntent);
+            } else {
+                Toast.makeText(this, "Teléfono no disponible", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         btnPromociones.setOnClickListener(v -> {
             String empresaID = getIntent().getStringExtra("empresaID");
             if (empresaID != null && !empresaID.isEmpty()) {
@@ -137,48 +197,17 @@ public class StoreDetailActivity extends AppCompatActivity {
             }
         });
 
-        btnCall.setOnClickListener(v -> {
-            if (telefonoEmpresa != null && !telefonoEmpresa.isEmpty()) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + telefonoEmpresa));
-                startActivity(intent);
-            } else {
-                Toast.makeText(this, "Teléfono no disponible", Toast.LENGTH_SHORT).show();
-            }
-        });
+        // ----------------------
+        // Cargar productos
+        // ----------------------
+        cargarProductos(nit);
+    }
 
-        btnOrder.setOnClickListener(v -> {
-            Toast.makeText(this, "Función de pedir a domicilio aún no disponible", Toast.LENGTH_SHORT).show();
-        });
-
-        btnMap.setOnClickListener(v -> {
-            Intent intent = new Intent(this, MapActivity.class);
-            intent.putExtra("lat_empresa", latEmpresa);
-            intent.putExtra("lng_empresa", lngEmpresa);
-            intent.putExtra("lat_usuario", latUsuario);
-            intent.putExtra("lng_usuario", lngUsuario);
-            intent.putExtra("nombre", nombreEmpresa);
-            startActivity(intent);
-        });
-
-        btnFavorite.setOnClickListener(v -> {
-            Toast.makeText(this, "Tienda guardada como favorita", Toast.LENGTH_SHORT).show();
-        });
-
-        btnShare.setOnClickListener(v -> {
-            Intent sendIntent = new Intent(Intent.ACTION_SEND);
-            sendIntent.setType("text/plain");
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "Te recomiendo visitar " + nombreEmpresa);
-            startActivity(Intent.createChooser(sendIntent, "Compartir vía"));
-        });
-
-        btnComments.setOnClickListener(v -> {
-            Toast.makeText(this, "Ver comentarios...", Toast.LENGTH_SHORT).show();
-        });
-
+    // Método para abrir carrito
+    private void btnCarritoClick(TextView txtCarritoCount) {
         txtCarritoCount.setOnClickListener(v -> {
             Intent intent = new Intent(StoreDetailActivity.this, CarritoActivity.class);
-            intent.putExtra("carrito", new ArrayList<>(carrito)); // productos
+            intent.putExtra("carrito", new ArrayList<>(carrito));
             intent.putExtra("lat_empresa", latEmpresa);
             intent.putExtra("lng_empresa", lngEmpresa);
             intent.putExtra("lat_usuario", latUsuario);

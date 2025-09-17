@@ -1,52 +1,65 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/select_role_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tvSelectRole"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Selecciona tu rol"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="100dp" />
+    <!-- Video de fondo -->
+    <VideoView
+        android:id="@+id/bgVideo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true" />
 
-    <Button
-        android:id="@+id/btnCliente"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Cliente"
-        app:layout_constraintTop_toBottomOf="@id/tvSelectRole"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp" />
+    <!-- Capa semitransparente -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000" />
 
-    <Button
-        android:id="@+id/btnEmpresa"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Empresa"
-        app:layout_constraintTop_toBottomOf="@id/btnCliente"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+    <!-- Contenido encima del video -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp">
 
-    <Button
-        android:id="@+id/btnDomiciliario"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Domiciliario"
-        app:layout_constraintTop_toBottomOf="@id/btnEmpresa"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        <TextView
+            android:id="@+id/tvSelectRole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selecciona tu rol"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginBottom="40dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/btnCliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cliente"
+            android:background="@drawable/btn_glass_selector"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="20dp" />
+
+        <Button
+            android:id="@+id/btnEmpresa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Empresa"
+            android:background="@drawable/btn_glass_selector"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="20dp" />
+
+        <Button
+            android:id="@+id/btnDomiciliario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Domiciliario"
+            android:background="@drawable/btn_glass_selector"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</RelativeLayout>

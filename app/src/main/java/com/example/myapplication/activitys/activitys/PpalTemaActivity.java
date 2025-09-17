@@ -30,6 +30,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.activitys.adapter.ChatAtencionclienteAdapter;
@@ -40,7 +41,6 @@ import com.example.myapplication.activitys.network.ApiRetrofit;
 import com.example.myapplication.activitys.servicios.Services;
 import com.example.myapplication.activitys.util.Constant;
 import com.example.myapplication.activitys.util.PreferenseManager;
-import com.example.myapplication.databinding.ActivityPpalTemaBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -75,14 +75,25 @@ public class PpalTemaActivity extends AppCompatActivity {
     private PreferenseManager preferenseManager;
     private ViewPager2 viewPager2;
     private FusedLocationProviderClient fusedLocationClient;
-
+    private VideoView videoView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ppal_tema);
-        viewPager2 = findViewById(R.id.onBoarddindViePager);
+        //viewPager2 = findViewById(R.id.onBoarddindViePager);
         preferenseManager = new PreferenseManager(getApplicationContext());
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        videoView = findViewById(R.id.bgVideo); // 👈 importante
+
+        Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.city);
+        videoView.setVideoURI(video);
+
+        videoView.setOnPreparedListener(mp -> {
+            mp.setLooping(true);
+            mp.setVolume(0f, 0f);
+            videoView.start(); // iniciar dentro del listener para evitar pantalla negra
+        });
 
         findViewById(R.id.btnIrAlChat).setOnClickListener(v -> {
             Intent intent = new Intent(PpalTemaActivity.this, ServicioClienteChatActivity.class);

@@ -2,8 +2,11 @@ package com.example.myapplication.activitys.activitys;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.VideoView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.activitys.util.Constant;
@@ -11,12 +14,24 @@ import com.example.myapplication.activitys.util.PreferenseManager;
 
 public class SelectRoleActivity extends AppCompatActivity {
     private PreferenseManager preferenseManager;
+    private VideoView videoView;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_role);
+
+        videoView = findViewById(R.id.bgVideo); // 👈 importante
+
+        Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.postres_trabajo);
+        videoView.setVideoURI(video);
+
+        videoView.setOnPreparedListener(mp -> {
+            mp.setLooping(true);
+            mp.setVolume(0f, 0f);
+            videoView.start(); // iniciar dentro del listener para evitar pantalla negra
+        });
 
         // Verificar si el usuario ya está logeado
         preferenseManager = new PreferenseManager(getApplicationContext());

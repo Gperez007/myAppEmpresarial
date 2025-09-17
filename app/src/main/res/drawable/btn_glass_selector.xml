@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-  
+
+    <!-- Estado presionado (gris opaco) -->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#80FFFFFF"/> <!-- Blanco translúcido -->
+            <corners android:radius="25dp"/>
+            <stroke android:width="2dp" android:color="#60FFFFFF"/>
+        </shape>
+    </item>
+
+    <!-- Estado normal (glass effect) -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#40FFFFFF"/> <!-- Semi-transparente -->
+            <corners android:radius="25dp"/>
+            <stroke android:width="2dp" android:color="#80FFFFFF"/>
+        </shape>
+    </item>
 </selector>

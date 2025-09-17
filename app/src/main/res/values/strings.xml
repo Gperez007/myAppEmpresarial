@@ -6,7 +6,7 @@
     <string name="web_client_id">450567068623-d5n06e7ufqeaek9skj0p7s4m5p940t7k.apps.googleusercontent.com</string>
     <string name="nombres">nombres</string>
     <string name="apellidoP">apellido</string>
-    <string name="telefono">telefono</string>
+    <string name="télefono">telefono</string>
     <string name="correo">correo</string>
     <string name="genero">genero</string>
     <string name="skin_intro">SKIN INTRO</string>

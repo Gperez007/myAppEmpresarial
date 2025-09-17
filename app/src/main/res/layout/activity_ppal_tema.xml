@@ -4,143 +4,146 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_blue"
+    android:background="@drawable/bg_gradient"
     tools:context=".activitys.activitys.PpalTemaActivity">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/butonSkingIntro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="70dp"
-        android:text="@string/skin_intro"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/botonBoardingAction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:minWidth="110dp"
-        android:text="@string/next"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:textColor="@color/acent"
-        app:layout_constraintBottom_toTopOf="@id/butonSkingIntro"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <LinearLayout
-        android:id="@+id/layoutOnboardingIndicators"
+    <!-- Video de fondo -->
+    <VideoView
+        android:id="@+id/bgVideo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="15dp"
-        app:layout_constraintBottom_toTopOf="@id/botonBoardingAction" />
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/onBoarddindViePager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@id/layoutOnboardingIndicators"
-        app:layout_constraintTop_toTopOf="parent" />
-
+    <!-- Encabezado con icono de logout -->
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageSingOutFoundPpal"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
         android:background="@drawable/background_icon"
-        android:padding="6dp"
+        android:padding="8dp"
         android:src="@drawable/ic_logout"
-        android:tint="@color/white"
+        android:tint="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-    </androidx.appcompat.widget.AppCompatImageView>
-
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnBuscarTiendasCercanas"
+    <!-- Bienvenida -->
+    <TextView
+        android:id="@+id/txtWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Buscar tiendas cercanas"
-        android:textColor="@color/white"
-        android:layout_marginTop="12dp"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@id/imageSingOutFound"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Bienvenido 🚀"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginTop="70dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/layoutBotones"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="NotSibling" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnIrAlChat"
-        android:layout_width="wrap_content"
+    <!-- Contenedor de botones -->
+    <LinearLayout
+        android:id="@+id/layoutBotones"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Ir al Chat"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@id/btnBuscarTiendasCercanas"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_margin="20dp"
+        app:layout_constraintTop_toBottomOf="@id/txtWelcome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnclientePromocion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="cliente Promociones"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@id/btnIrAlChat"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBuscarTiendasCercanas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Buscar Tiendas Cercanas"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:icon="@drawable/ic_store"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textStart"
+            app:backgroundTint="@color/acent"
+            app:cornerRadius="20dp"
+            android:elevation="8dp"
+            android:layout_marginBottom="12dp"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnPedido"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:text="Pedidos"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@id/btnIrAlChat"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnIrAlChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ir al Chat"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:icon="@drawable/ic_chat"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textStart"
+            app:backgroundTint="@color/purple_500"
+            app:cornerRadius="20dp"
+            android:elevation="8dp"
+            android:layout_marginBottom="12dp"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnPagos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
-        android:text="Pagos"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@id/btnIrAlChat"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnclientePromocion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Promociones"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:icon="@drawable/ic_local_offer"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textStart"
+            app:backgroundTint="@color/teal_700"
+            app:cornerRadius="20dp"
+            android:elevation="8dp"
+            android:layout_marginBottom="12dp"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnProdLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
-        android:text="ProdLocation"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@id/btnIrAlChat"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPedido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pedidos"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:icon="@drawable/ic_cart"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textStart"
+            app:backgroundTint="@color/red_500"
+            app:cornerRadius="20dp"
+            android:elevation="8dp"
+            android:layout_marginBottom="12dp"/>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPagos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pagos"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:icon="@drawable/ic_payment"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textStart"
+            app:backgroundTint="@color/blue_500"
+            app:cornerRadius="20dp"
+            android:elevation="8dp"
+            android:layout_marginBottom="12dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnProdLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ubicación de Productos"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:icon="@drawable/ic_location"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textStart"
+            app:backgroundTint="@color/green_500"
+            app:cornerRadius="20dp"
+            android:elevation="8dp"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-  
+    <item
+        android:id="@+id/menu_order"
+        android:title="Pedir a domicilio"/>
+    <item
+        android:id="@+id/menu_map"
+        android:title="Ver en el mapa"/>
+    <item
+        android:id="@+id/menu_favorite"
+        android:title="Guardar como favorita"/>
+    <item
+        android:id="@+id/menu_comments"
+        android:title="Ver comentarios"/>
+    <item
+        android:id="@+id/menu_share"
+        android:title="Compartir tienda"/>
+    <item
+        android:id="@+id/menu_chat"
+        android:title="Chat de atención al cliente"/>
 </menu>

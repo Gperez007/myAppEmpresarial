@@ -1,173 +1,156 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".activitys.activitys.LoginActivty">
+    android:layout_height="match_parent">
 
+    <!-- Imagen o video de fondo -->
     <ImageView
-        android:id="@+id/imageViewLogin"
-        android:layout_width="411dp"
-        android:layout_height="681dp"
+        android:id="@+id/bgImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/background"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-120dp" />
+        android:src="@drawable/background" />
 
-    <LinearLayout
-        android:layout_width="328dp"
-        android:layout_height="787dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.97">
+    <!-- Capa semitransparente para oscurecer el fondo -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="304dp"
-            android:layout_height="52dp"
-            android:layout_marginTop="32dp"
-            android:text="Your Email"
-            android:textColor="#ffffff"
-            android:textSize="18dp" />
-
-        <EditText
-            android:id="@+id/TextUsuario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:drawable/edit_text"
-            android:ems="10"
-            android:hint="Enter your Username"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Password"
-            android:textColor="#ffffff"
-            android:textSize="18dp" />
-
-        <EditText
-            android:id="@+id/TextContrasena"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@android:drawable/edit_text"
-            android:ems="10"
-            android:hint="Enter your Password"
-            android:inputType="textPassword"
-            android:padding="16dp"
-            android:textColor="#5c5f72"
-            android:textSize="16dp" />
-        
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
-            android:animateLayoutChanges="true">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonIngresar"
-                style="@android:style/Widget.Button"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:layout_marginTop="48dp"
-                android:text="Ingresar"
-                android:textColor="#ffffff"
-                android:textSize="20dp"
-                android:textStyle="bold">
-                
-            </com.google.android.material.button.MaterialButton>
-            
-            <ProgressBar
-                android:id="@+id/ProgressBar"
-                android:layout_width="25sp"
-                android:layout_height="25sp"
-                android:layout_gravity="center"
-                android:visibility="invisible">
-
-            </ProgressBar>
-
-        </FrameLayout>
-
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="124dp"
-            android:layout_marginTop="32dp"
-            android:gravity="center_horizontal"
-            android:text="Recordar Contaseña"
-            android:textAlignment="center"
-            android:textColor="#ffffff"
-            android:textSize="16dp" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="329dp"
-            android:layout_height="39dp"
-            android:layout_gravity="center"
-            android:text="or login with"
-            android:textAlignment="center" />
+    <!-- Contenido encima del fondo -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:padding="24dp">
 
-            <ImageView
-                android:id="@+id/imageFacebook"
-                android:layout_width="0dp"
-                android:layout_height="74dp"
-                android:layout_weight="1"
-                android:contentDescription="Login con Facebook"
-                android:padding="8dp"
-                android:src="@drawable/facebook" />
+            <!-- Título -->
+            <TextView
+                android:id="@+id/tvLoginTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Iniciar Sesión"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginBottom="32dp" />
 
-            <ImageView
-                android:id="@+id/imageGoogle"
-                android:layout_width="0dp"
-                android:layout_height="74dp"
-                android:layout_weight="1"
-                android:contentDescription="Login con Google"
-                android:padding="8dp"
-                android:src="@drawable/google" />
+            <!-- Usuario -->
+            <EditText
+                android:id="@+id/TextUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Correo o Télefono"
+                android:inputType="textEmailAddress"
+                android:textColor="@android:color/white"
+                android:textColorHint="#B3FFFFFF"
+                android:drawableLeft="@drawable/ic_user"
+                android:drawablePadding="12dp"
+                android:background="@drawable/edittext_background"
+                android:layout_marginBottom="20dp" />
 
-            <ImageView
-                android:id="@+id/imageTwitter"
-                android:layout_width="0dp"
-                android:layout_height="74dp"
-                android:layout_weight="1"
-                android:contentDescription="Login con Twitter"
-                android:padding="8dp"
-                android:src="@drawable/twitter" />
+            <!-- Contraseña -->
+            <EditText
+                android:id="@+id/TextContrasena"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Contraseña"
+                android:inputType="textPassword"
+                android:textColor="@android:color/white"
+                android:textColorHint="#B3FFFFFF"
+                app:drawableStartCompat="@drawable/ic_lock"
+                android:drawablePadding="12dp"
+                android:background="@drawable/edittext_background"
+                android:layout_marginBottom="20dp" />
+
+            <!-- Botón Ingresar -->
+            <Button
+                android:id="@+id/buttonIngresar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ingresar"
+                android:background="@drawable/btn_glass_selector"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="20dp" />
+
+
+            <!-- Recordar contraseña -->
+            <TextView
+                android:id="@+id/textViewRecordar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¿Olvidaste tu contraseña?"
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="32dp" />
+
+            <!-- Divider -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="O ingresa con"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Login con redes sociales -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginBottom="32dp">
+
+                <ImageView
+                    android:id="@+id/imageFacebook"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/facebook"
+                    android:padding="8dp" />
+
+                <ImageView
+                    android:id="@+id/imageGoogle"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/google"
+                    android:padding="8dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp" />
+
+                <ImageView
+                    android:id="@+id/imageTwitter"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/twitter"
+                    android:padding="8dp" />
+            </LinearLayout>
+
+            <!-- Botón Registro -->
+            <Button
+                android:id="@+id/buttonRegistro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Registrarte"
+                android:background="@drawable/btn_glass_selector"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/buttonRegistro"
-            style="@android:style/Widget.Button"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_marginTop="48dp"
-            android:text="Registrarte"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+    </ScrollView>
 
-
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:indeterminate="true" />
+</RelativeLayout>

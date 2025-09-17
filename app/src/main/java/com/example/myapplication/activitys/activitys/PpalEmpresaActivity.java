@@ -60,7 +60,7 @@ public class PpalEmpresaActivity extends AppCompatActivity {
         btnSaltarAsistente = findViewById(R.id.btnSaltarAsistente);
 
         // Video fondo
-        Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.empresa_fondo);
+        Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.panaderia);
         videoView.setVideoURI(video);
         videoView.setOnPreparedListener(mp -> {
             mp.setLooping(true);

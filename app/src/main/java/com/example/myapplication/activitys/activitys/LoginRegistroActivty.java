@@ -35,7 +35,7 @@ public class LoginRegistroActivty extends AppCompatActivity {
         fechaNac = findViewById(R.id.textFecha);
         genero = findViewById(R.id.textGenero);
         Siguiente = findViewById(R.id.buttonSiguiente);
-        fechaBtn = findViewById(R.id.imageButonFecha);
+        //fechaBtn = findViewById(R.id.imageButonFecha);
         //progressBar = findViewById(R.id.ProgressBar);
         Siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,12 +64,11 @@ public class LoginRegistroActivty extends AppCompatActivity {
 
         });
 
-        fechaBtn.setOnClickListener(new View.OnClickListener() {
+        efecha.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 fecha();
             }
-
         });
 
     }
@@ -104,18 +103,28 @@ public class LoginRegistroActivty extends AppCompatActivity {
         }
     }
 
-    private void fecha() {
 
+
+    private void fecha() {
         final Calendar c = Calendar.getInstance();
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                efecha.setText(dayOfMonth + "/" + month + "/" + year);
-            }
-        }
-                , c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.show();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
 
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        // ⚠️ Ajustamos +1 al mes porque en Android enero = 0
+                        String fechaSeleccionada = dayOfMonth + "/" + (month + 1) + "/" + year;
+                        efecha.setText(fechaSeleccionada);
+                    }
+                },
+                year, month, day
+        );
+
+        datePickerDialog.show();
     }
 }

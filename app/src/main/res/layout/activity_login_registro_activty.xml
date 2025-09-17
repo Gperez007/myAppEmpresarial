@@ -1,151 +1,142 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_blue"
     tools:context=".activitys.activitys.LoginRegistroActivty">
 
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_centerHorizontal="true"
+    <!-- Fondo -->
+    <ImageView
+        android:id="@+id/bgImage"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:scaleType="centerCrop"
+        android:src="@drawable/background" />
 
-        <ScrollView
+    <!-- Capa oscura -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000" />
+
+    <!-- Contenido -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="24dp">
 
-            <LinearLayout
+            <!-- Título -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Regístrate"
+                android:textColor="@android:color/white"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp" />
+
+            <!-- Imagen -->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="120dp"
+                android:layout_height="110dp"
+                android:layout_marginTop="25dp"
+                android:src="@drawable/login"
+                android:contentDescription="@string/app_name"
+                android:layout_gravity="center" />
+
+            <!-- Nombre -->
+            <EditText
+                android:id="@+id/textNombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginTop="20dp"
+                android:hint="@string/nombres"
+                android:textColor="@android:color/white"
+                android:textColorHint="#B3FFFFFF"
+                android:textSize="18sp"
+                app:drawableStartCompat="@drawable/ic_user"
+                android:drawablePadding="12dp"
+                android:background="@drawable/edittext_background" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="Registrate"
+            <!-- Apellido -->
+            <EditText
+                android:id="@+id/textApellidoP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/apellidoP"
+                android:textColor="@android:color/white"
+                android:textColorHint="#B3FFFFFF"
+                android:textSize="18sp"
+                app:drawableStartCompat="@drawable/ic_user"
+                android:drawablePadding="12dp"
+                android:background="@drawable/edittext_background" />
+
+            <!-- Fecha de nacimiento -->
+            <EditText
+                android:id="@+id/textFecha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Fecha de nacimiento"
+                android:textColor="@android:color/white"
+                android:textColorHint="#B3FFFFFF"
+                android:textSize="18sp"
+                app:drawableStartCompat="@drawable/ic_calendar"
+                android:drawablePadding="12dp"
+                android:background="@drawable/edittext_background"
+                android:focusable="false"
+                android:clickable="true" />
+
+            <!-- Género -->
+            <EditText
+                android:id="@+id/textGenero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="@string/genero"
+                android:textColor="@android:color/white"
+                android:textColorHint="#B3FFFFFF"
+                android:textSize="18sp"
+                app:drawableStartCompat="@drawable/ic_user"
+                android:drawablePadding="12dp"
+                android:background="@drawable/edittext_background" />
+
+            <!-- Loading -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:animateLayoutChanges="true">
+
+                <ProgressBar
+                    android:id="@+id/ProgressBar"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="center"
-                    android:textColor="#ffffff"
-                    android:textSize="30dp"
-                    android:textStyle="bold">
+                    android:visibility="invisible" />
+            </FrameLayout>
 
-                </TextView>
+            <!-- Botón -->
+            <Button
+                android:id="@+id/buttonSiguiente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Siguiente"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:background="@drawable/btn_glass_selector" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="120dp"
-                    android:layout_height="110dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/login">
-
-                </androidx.appcompat.widget.AppCompatImageView>
-
-                <EditText
-                    android:id="@+id/textNombre"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:ems="10"
-                    android:textAlignment="center"
-                    android:textColor="#ffffff"
-                    android:hint="@string/nombres"
-                    android:textColorHint="@color/ligh_turco"
-                    android:textSize="25dp"
-                    android:gravity="center_horizontal" />
-
-                <EditText
-                    android:id="@+id/textApellidoP"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:textColor="#ffffff"
-                    android:textAlignment="center"
-                    android:hint="@string/apellidoP"
-                    android:textColorHint="@color/ligh_turco"
-                    android:textSize="25dp"
-                    android:gravity="center_horizontal" />
-
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/textFecha"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:hint="fecha"
-                        android:textAlignment="center"
-                        android:textColor="#ffffff"
-                        android:textColorHint="@color/ligh_turco"
-                        android:textSize="25dp"
-                        android:gravity="center_horizontal" />
-
-                    <TextView
-                        android:id="@+id/imageButonFecha"
-                        android:layout_width="290dp"
-                        android:layout_height="54dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp">
-
-                    </TextView>
-
-                </RelativeLayout>
-
-                <EditText
-                    android:id="@+id/textGenero"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:hint="@string/genero"
-                    android:textColor="#ffffff"
-                    android:textAlignment="center"
-                    android:textColorHint="@color/ligh_turco"
-                    android:textSize="25dp"
-                    android:gravity="center_horizontal" />
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16sp"
-                    android:animateLayoutChanges="true"
-                    >
-
-                    <ProgressBar
-                        android:id="@+id/ProgressBar"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:visibility="invisible">
-
-                    </ProgressBar>
-
-                </FrameLayout>
-
-                <Button
-                    android:id="@+id/buttonSiguiente"
-                    style="@android:style/Widget.Button"
-                    android:layout_width="match_parent"
-                    android:layout_height="65dp"
-                    android:layout_marginTop="40dp"
-                    android:text="Suguiente"
-                    android:textColor="@color/white"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-
-
-            </LinearLayout>
-
-        </ScrollView>
-
-
-    </LinearLayout>
-
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>
